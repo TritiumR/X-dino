@@ -20,15 +20,15 @@ import torch.nn.functional as F
 SCALE_FACTOR = 4
 
 
-def make_transform(resize_size: int = 720):
-    to_tensor = transforms.ToTensor()
-    resize = transforms.Resize((resize_size, resize_size), antialias=True)
-    normalize = transforms.Normalize(
-        mean=(0.485, 0.456, 0.406),
-        std=(0.229, 0.224, 0.225),
-    )
-    return transforms.Compose([to_tensor, resize, normalize])
-    # return transforms.Compose([to_tensor, normalize])
+# def make_transform(resize_size: int = 720):
+#     to_tensor = transforms.ToTensor()
+#     resize = transforms.Resize((resize_size, resize_size), antialias=True)
+#     normalize = transforms.Normalize(
+#         mean=(0.485, 0.456, 0.406),
+#         std=(0.229, 0.224, 0.225),
+#     )
+#     return transforms.Compose([to_tensor, resize, normalize])
+#     # return transforms.Compose([to_tensor, normalize])
 
 parser = argparse.ArgumentParser(description="Test DINOv3")
 parser.add_argument("--file_path", type=str, help="Path to the image file")
@@ -39,12 +39,13 @@ args = parser.parse_args()
 print("Loading DINOv3 model...")
 # model_name = "facebook/dinov3-vith16plus-pretrain-lvd1689m"
 model_name = "facebook/dinov3-vitl16-pretrain-lvd1689m"
+# model_name = "facebook/dinov3-convnext-large-pretrain-lvd1689m"
 processor = AutoImageProcessor.from_pretrained(model_name)
 model = AutoModel.from_pretrained(
     model_name, 
 )
 
-transform = make_transform()
+# transform = make_transform()
 
 def compute_patch_cosine_similarity(features, features_2, pixel_position, original_size):
     """
